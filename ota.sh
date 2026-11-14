@@ -4,7 +4,8 @@ set -e
 VERSION=$1
 DEVICE=spes
 OEM=Xiaomi
-OUT=$(ls -d ~/*/out/target/product/$DEVICE | head -1)
+OUT=$(ls -td ~/*/out/target/product/$DEVICE 2>/dev/null | head -1)
+[ -z "$OUT" ] && { echo "No $DEVICE build found in any folder in your home"; exit 1; }
 ZIP=$(ls -t $OUT/*Rising*.zip | head -1)
 NAME=$(basename "$ZIP")
 SIZE=$(stat -c%s "$ZIP")
